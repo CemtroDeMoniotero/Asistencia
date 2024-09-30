@@ -244,42 +244,50 @@ function formatearFecha(fecha) {
     return `${year}-${month}-${day}`;
 }
 
-// Función para mostrar las ausencias para la fecha seleccionada usando la Fecha de Entrada
-function mostrarAusenciasPorFecha() {
-    const fechaSeleccionada = absenceDateInput.value;
-    if (!fechaSeleccionada) {
-        alert('Por favor, selecciona una fecha.');
-        return;
-    }
+// Función para mostrar ausencias para todas las fechas en el historial
+function mostrarAusenciasParaTodosLosDias() {
+    // Limpiar la tabla de ausencias
+    absencesTableBody.innerHTML = '';
 
-    // Cargar los registros de asistencia desde LocalStorage
+    // Cargar los registros desde LocalStorage
     const storedData = JSON.parse(localStorage.getItem('attendanceRecords')) || [];
 
-    // Filtrar los registros que coincidan con la fecha de entrada seleccionada
-    const registrosDelDia = storedData.filter(record => formatearFecha(record.fechaEntrada) === formatearFecha(fechaSeleccionada));
+    // Obtener todas las fechas únicas en las que hay registros en el historial de asistencia
+    const fechasUnicas = [...new Set(storedData.map(record => record.fechaEntrada))];
 
-    // Obtener los nombres de las personas que asistieron en esa fecha
-    const asistentesFecha = registrosDelDia.map(record => record.nombre.trim().toLowerCase());
+    // Iterar sobre cada fecha única y obtener las ausencias para cada fecha
+    fechasUnicas.forEach(fecha => {
+        // Filtrar los registros que coincidan con la fecha
+        const registrosDelDia = storedData.filter(record => formatearFecha(record.fechaEntrada) === formatearFecha(fecha));
 
-    // Normalizar los nombres completos para comparación
-    const nombresNormalizados = nombresCompletos.map(nombre => nombre.trim().toLowerCase());
+        // Obtener los nombres de las personas que asistieron en esa fecha
+        const asistentesFecha = registrosDelDia.map(record => record.nombre.trim().toLowerCase());
 
-    // Obtener la lista de ausentes comparando con los asistentes de la fecha de entrada
-    const ausentes = nombresNormalizados.filter(nombre => !asistentesFecha.includes(nombre));
+        // Normalizar los nombres completos para comparación
+        const nombresNormalizados = nombresCompletos.map(nombre => nombre.trim().toLowerCase());
 
-    // Mostrar ausencias en la tabla HTML
-    absencesTableBody.innerHTML = ''; // Limpiar la tabla de ausencias
+        // Obtener la lista de ausentes comparando con los asistentes
+        const ausentes = nombresNormalizados.filter(nombre => !asistentesFecha.includes(nombre));
 
-    ausentes.forEach(ausente => {
-        const nombreOriginal = nombresCompletos.find(n => n.trim().toLowerCase() === ausente); // Recuperar el nombre original
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `<td>${nombreOriginal}</td><td>${fechaSeleccionada}</td>`;
-        absencesTableBody.appendChild(newRow);
+        // Mostrar ausencias en la tabla HTML por fecha
+        ausentes.forEach(ausente => {
+            const nombreOriginal = nombresCompletos.find(n => n.trim().toLowerCase() === ausente); // Recuperar el nombre original
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `<td>${nombreOriginal}</td><td>${fecha}</td>`;
+            absencesTableBody.appendChild(newRow);
+        });
+
+        // Si todos asistieron en esa fecha, mostrar un mensaje indicándolo
+        if (ausentes.length === 0) {
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `<td colspan="2">Todas las personas asistieron el día ${fecha}.</td>`;
+            absencesTableBody.appendChild(newRow);
+        }
     });
 
-    // Si todos asistieron, mostrar un mensaje indicándolo
-    if (ausentes.length === 0) {
-        absencesTableBody.innerHTML = '<tr><td colspan="2">Todas las personas asistieron en esta fecha.</td></tr>';
+    // Si no hay fechas registradas, mostrar un mensaje
+    if (fechasUnicas.length === 0) {
+        absencesTableBody.innerHTML = '<tr><td colspan="2">No hay registros de asistencia en el historial.</td></tr>';
     }
 }
 
@@ -396,7 +404,7 @@ searchNameInput.addEventListener('input', function () {
 });
 
 // Mostrar ausencias cuando se presiona el botón
-showAbsencesButton.addEventListener('click', mostrarAusenciasPorFecha);
+showAbsencesButton.addEventListener('click', mostrarAusenciasParaTodosLosDias);
 
 // Limpiar ausencias cuando se presiona el botón de limpiar
 clearAbsencesButton.addEventListener('click', limpiarAusencias);
