@@ -96,7 +96,8 @@ const nombresCentroHistorico = [
     "Nelson Edgardo Hernandez Hernandez - CH AMSS",
     "Ariel Alfredo Elias Alvarez - CH AMSS",
     "Astrid Hillary Campos de Jimenez - CH AMSS",
-    "Fernanda Estefaniia Peña Valladares - CH APLAN"
+    "Fernanda Estefaniia Peña Valladares - CH APLAN",
+    "Fabricio Humberto Lopez Baches - ASAMBLEA"
     // Añadir más nombres del Centro Histórico
 ];
 
