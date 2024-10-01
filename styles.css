@@ -60,17 +60,62 @@ input, select, button {
 
 /* Estilo específico para los botones */
 button {
-    background-color: #28a745;
-    color: white;
     cursor: pointer;
     border: none;
     border-radius: 5px;
     padding: 10px;
 }
 
+/* Colores por equipo */
+
+/* Call Center (Verde) */
+.call-center-theme button {
+    background-color: #28a745; /* Verde */
+    color: white;
+}
+
+.call-center-theme h1, .call-center-theme h2 {
+    color: #28a745; /* Verde */
+}
+
+/* Call Center Hover para botones de menú */
+.call-center-theme .menu-button:hover {
+    background-color: #218838; /* Hover en verde oscuro */
+}
+
+/* Centro Histórico (Azul) */
+.centro-historico-theme button {
+    background-color: #007bff; /* Azul */
+    color: white;
+}
+
+.centro-historico-theme h1, .centro-historico-theme h2 {
+    color: #007bff; /* Azul */
+}
+
+/* Centro Histórico Hover para botones de menú */
+.centro-historico-theme .menu-button:hover {
+    background-color: #0056b3; /* Hover en azul oscuro */
+}
+
+/* Centro de Monitoreo (Amarillo) */
+.centro-monitoreo-theme button {
+    background-color: #ffc107; /* Amarillo */
+    color: black;
+}
+
+.centro-monitoreo-theme h1, .centro-monitoreo-theme h2 {
+    color: #ffc107; /* Amarillo */
+}
+
+/* Centro de Monitoreo Hover para botones de menú */
+.centro-monitoreo-theme .menu-button:hover {
+    background-color: #e0a800; /* Hover en amarillo oscuro */
+}
+
 /* Cambiar color del botón cuando se pasa el mouse */
 button:hover {
-    background-color: #218838;
+    opacity: 0.9;
 }
 
 /* Tabla de asistencia */
@@ -147,6 +192,13 @@ body.dark-mode th, body.dark-mode td {
     border-color: #555;
 }
 
+/* Barra de búsqueda en modo oscuro */
+body.dark-mode .search-bar {
+    background-color: #333;
+    border: 1px solid #555;
+    color: #f1f1f1;
+}
+
 /* Botón en modo oscuro */
 body.dark-mode button {
     background-color: #28a745;
@@ -155,13 +207,6 @@ body.dark-mode button {
 
 body.dark-mode button:hover {
     background-color: #218838;
-}
-
-/* Barra de búsqueda en modo oscuro */
-body.dark-mode .search-bar {
-    background-color: #333;
-    border: 1px solid #555;
-    color: #f1f1f1;
 }
 
 /* Estilos básicos para el modal */
